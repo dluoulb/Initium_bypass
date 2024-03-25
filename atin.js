@@ -4,30 +4,8 @@ function obfuscate() {
     var checkbox_special_spaces = document.getElementById("special-spaces");
     var checkbox_special_characters = document.getElementById("special-characters");
 
-    const chat = document.getElementsByTagName('body');
-    chat.endPoint  = "https://api.openai.com/v1/chat/completions";
-    chat.model = "gpt-3.5-turbo"
-    chat.body  = { model: chat.model, temperature: 0.8 }
-    chat.history = []  
-    chat.apiKey = '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'
-    chat.body.stream = false 
-    chat.body.messages = [ { role: "user", content: input} ]
-    chat.headers = { "Authorization": `Bearer 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`, "Content-Type": "application/json" }
-    chat.result = ''
-    chat.controller = new AbortController();
-    const signal = chat.controller.signal
-
-    if (checkbox_special_characters.checked) {  
-      fetch( "https://api.openai.com/v1/chat/completions", { method:'POST', headers: chat.headers, body: JSON.stringify(chat.body), signal })
-      .then(response => response.json() )
-      .then(json => {
-         if ((chat.json = json).choices) {
-            chat.result = json.choices[0].message.content
-         }	 
-      })
-      .catch(error => console.error(error));
-
-        var obfuscatedInput = obfuscate_characters(chat.result);
+    if (checkbox_special_characters.checked) {
+        var obfuscatedInput = obfuscate_characters(input);
     } else {
         var obfuscatedInput = input;
     }
